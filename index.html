@@ -82,7 +82,7 @@
   <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyG791gtJ8X9LUf9JeitSixw0GGyVtKRjsw6UchFyPbFh2Ndm65OP8ZcLM84bIl-x5ehQ/exec";
 
-    async function handleSubmit(e) {
+    function handleSubmit(e) {
       e.preventDefault();
       const nom = document.getElementById('nom').value.trim();
       const email = document.getElementById('email').value.trim();
@@ -90,19 +90,21 @@
       const btn = document.querySelector('.submit-btn');
       btn.textContent = 'Envoi en cours…';
       btn.disabled = true;
-      try {
-        const url = SCRIPT_URL
-          + "?nom=" + encodeURIComponent(nom)
-          + "&email=" + encodeURIComponent(email)
-          + "&tel=" + encodeURIComponent(tel);
-        await fetch(url, { method: 'GET', mode: 'no-cors' });
-      } catch(err) {
-        console.error('Erreur:', err);
-      }
-      btn.textContent = "✦  S'inscrire";
-      btn.disabled = false;
-      document.getElementById('modalName').textContent = nom;
-      document.getElementById('modalOverlay').classList.add('show');
+
+      const url = SCRIPT_URL
+        + "?nom=" + encodeURIComponent(nom)
+        + "&email=" + encodeURIComponent(email)
+        + "&tel=" + encodeURIComponent(tel);
+
+      const img = new Image();
+      img.src = url;
+
+      setTimeout(function() {
+        btn.textContent = "✦  S'inscrire";
+        btn.disabled = false;
+        document.getElementById('modalName').textContent = nom;
+        document.getElementById('modalOverlay').classList.add('show');
+      }, 2000);
     }
 
     function closeModal() {
@@ -115,4 +117,5 @@
     });
   </script>
 </body>
-</html>
+        </html>
+
